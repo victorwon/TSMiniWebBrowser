@@ -26,7 +26,7 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol TSMiniWebBrowserDelegate <NSObject>
+@protocol TSMiniWebBrowserDelegate <UIWebViewDelegate>
 @optional
 -(void) tsMiniWebBrowserDidDismiss;
 @end

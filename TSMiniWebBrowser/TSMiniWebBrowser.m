@@ -441,13 +441,21 @@ enum actionSheetButtonIndex {
         return NO;
     }
     
-    return YES;
+    if ([self.delegate respondsToSelector:@selector(webView:shouldStartLoadWithRequest:navigationType:)]) {
+        return [self.delegate webView:webView shouldStartLoadWithRequest:request navigationType:navigationType];
+    } else {
+        return YES;
+    }
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {
     [self toggleBackForwardButtons];
     
     [self showActivityIndicators];
+    
+    if ([self.delegate respondsToSelector:@selector(webViewDidStartLoad:)]) {
+        [self.delegate webViewDidStartLoad:webView];
+    }
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)_webView {
@@ -460,6 +468,10 @@ enum actionSheetButtonIndex {
     [self hideActivityIndicators];
     
     [self toggleBackForwardButtons];
+    
+    if ([self.delegate respondsToSelector:@selector(webViewDidFinishLoad:)]) {
+        [self.delegate webViewDidFinishLoad:_webView];
+    }
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
@@ -478,6 +490,10 @@ enum actionSheetButtonIndex {
                                           cancelButtonTitle:nil
                                           otherButtonTitles:NSLocalizedString(@"OK", nil), nil];
 	[alert show];
+    
+    if ([self.delegate respondsToSelector:@selector(webView:didFailLoadWithError:)]) {
+        [self.delegate webView:webView didFailLoadWithError:error];
+    }
 }
 
 @end
