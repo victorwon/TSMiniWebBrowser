@@ -37,6 +37,9 @@
 @synthesize barStyle;
 @synthesize modalDismissButtonTitle;
 
+#define kStatusBarHeight ([[[UIDevice currentDevice] systemVersion] compare:@"7.0" options:NSNumericSearch] != NSOrderedAscending ? 20 : 0)
+#define kTitleBarStart   kStatusBarHeight
+#define kTitleBarHeight 44
 #define kToolBarHeight  44
 #define kTabBarHeight   49
 
@@ -102,7 +105,7 @@ enum actionSheetButtonIndex {
     titleBar.leftBarButtonItem = buttonDone;
     
     CGFloat width = self.view.frame.size.width;
-    navigationBarModal = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, width, 44)];
+    navigationBarModal = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, kTitleBarStart, width, kTitleBarHeight)];
     //navigationBar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleBottomMargin;
     navigationBarModal.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     navigationBarModal.barStyle = barStyle;
@@ -172,7 +175,7 @@ enum actionSheetButtonIndex {
 -(void) initWebView {
     CGSize viewSize = self.view.frame.size;
     if (mode == TSMiniWebBrowserModeModal) {
-        webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, kToolBarHeight, viewSize.width, viewSize.height-kToolBarHeight*2)];
+        webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, kTitleBarStart + kTitleBarHeight, viewSize.width, viewSize.height-kToolBarHeight - (kTitleBarStart + kTitleBarHeight))];
     } else if(mode == TSMiniWebBrowserModeNavigation) {
         webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, viewSize.width, viewSize.height-kToolBarHeight)];
     } else if(mode == TSMiniWebBrowserModeTabBar) {
