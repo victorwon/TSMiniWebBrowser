@@ -177,8 +177,13 @@ enum actionSheetButtonIndex {
     
     webView.delegate = self;
     
+    for(NSHTTPCookie *cookie in [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies]) {
+        [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookie];
+    }
+    
     // Load the URL in the webView
     NSURLRequest *requestObj = [NSURLRequest requestWithURL:urlToLoad];
+    [[NSURLCache sharedURLCache] removeCachedResponseForRequest:requestObj];
     [webView loadRequest:requestObj];
 }
 
