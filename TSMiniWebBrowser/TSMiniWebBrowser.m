@@ -76,18 +76,6 @@ enum actionSheetButtonIndex {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
--(void) dismissController {
-    if ( webView.loading ) {
-        [webView stopLoading];
-    }
-    [self dismissModalViewControllerAnimated:YES];
-    
-    // Notify the delegate
-    if (self.delegate != NULL && [self.delegate respondsToSelector:@selector(tsMiniWebBrowserDidDismiss)]) {
-        [delegate tsMiniWebBrowserDidDismiss];
-    }
-}
-
 //Added in the dealloc method to remove the webview delegate, because if you use this in a navigation controller
 //TSMiniWebBrowser can get deallocated while the page is still loading and the web view will call its delegate-- resulting in a crash
 -(void)dealloc
@@ -424,6 +412,18 @@ enum actionSheetButtonIndex {
 
 - (void)loadURL:(NSURL*)url {
     [webView loadRequest: [NSURLRequest requestWithURL: url]];
+}
+
+-(void) dismissController {
+    if ( webView.loading ) {
+        [webView stopLoading];
+    }
+    [self dismissModalViewControllerAnimated:YES];
+    
+    // Notify the delegate
+    if (self.delegate != NULL && [self.delegate respondsToSelector:@selector(tsMiniWebBrowserDidDismiss)]) {
+        [delegate tsMiniWebBrowserDidDismiss];
+    }
 }
 
 #pragma mark - UIWebViewDelegate
