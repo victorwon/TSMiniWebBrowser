@@ -1,12 +1,12 @@
 Pod::Spec.new do |s|
   s.name         = 'TSMiniWebBrowser'
-  s.version      = '1.0.1.b'
+  s.version      = '1.1.1'
   s.platform     = :ios
   s.license      = 'MIT'
   s.summary      = 'An in-app web browser control for iOS apps.'
-  s.homepage     = 'https://github.com/tonisalae/TSMiniWebBrowser'
+  s.homepage     = 'https://github.com/victorwon/TSMiniWebBrowser'
   s.author       = { 'Toni Sala' => 'tonisalae@gmail.com' }
-  s.source       = { :git => 'https://github.com/garthex/TSMiniWebBrowser.git', :commit => '569cac007c90729e0276eb5c1b16a75d60a49853' }
+  s.source       = { :git => 'https://github.com/victorwon/TSMiniWebBrowser.git' }
   s.source_files = 'TSMiniWebBrowser/*.{h,m}'
   s.framework    = 'QuartzCore'
   s.requires_arc = true
