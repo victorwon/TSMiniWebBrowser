@@ -48,7 +48,7 @@
         dummyViewController.title = @"Other Controller";
         dummyViewController.tabBarItem.image = [UIImage imageNamed:@"first.png"];
         
-        TSMiniWebBrowser *webBrowser = [[TSMiniWebBrowser alloc] initWithUrl:[NSURL URLWithString:@"http://indiedevstories.com"]];
+        TSMiniWebBrowser *webBrowser = [[TSMiniWebBrowser alloc] initWithUrl:[NSURL URLWithString:@"http://indiedevstories.com"] withReadability:NO];
         webBrowser.barStyle = UIBarStyleBlack;
         webBrowser.mode = TSMiniWebBrowserModeTabBar;
         webBrowser.title = @"TSMiniWebBrowser";

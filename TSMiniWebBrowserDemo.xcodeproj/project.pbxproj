@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		21A201DB18295D7400ECBD3F /* readability.png in Resources */ = {isa = PBXBuildFile; fileRef = 21A201D918295D7400ECBD3F /* readability.png */; };
+		21A201DC18295D7400ECBD3F /* readability@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 21A201DA18295D7400ECBD3F /* readability@2x.png */; };
+		21A201E7182985EF00ECBD3F /* black_cross.png in Resources */ = {isa = PBXBuildFile; fileRef = 21A201E5182985EF00ECBD3F /* black_cross.png */; };
+		21A201E8182985EF00ECBD3F /* black_cross@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 21A201E6182985EF00ECBD3F /* black_cross@2x.png */; };
 		6F69CDB514C6339C00BB6C57 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F69CDB414C6339C00BB6C57 /* UIKit.framework */; };
 		6F69CDB714C6339C00BB6C57 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F69CDB614C6339C00BB6C57 /* Foundation.framework */; };
 		6F69CDB914C6339C00BB6C57 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F69CDB814C6339C00BB6C57 /* CoreGraphics.framework */; };
@@ -32,6 +36,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		21A201D918295D7400ECBD3F /* readability.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = readability.png; sourceTree = "<group>"; };
+		21A201DA18295D7400ECBD3F /* readability@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "readability@2x.png"; sourceTree = "<group>"; };
+		21A201E5182985EF00ECBD3F /* black_cross.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = black_cross.png; sourceTree = "<group>"; };
+		21A201E6182985EF00ECBD3F /* black_cross@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "black_cross@2x.png"; sourceTree = "<group>"; };
 		6F69CDB014C6339C00BB6C57 /* TSMiniWebBrowserDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TSMiniWebBrowserDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6F69CDB414C6339C00BB6C57 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		6F69CDB614C6339C00BB6C57 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -145,6 +153,8 @@
 		6F69CE2414C63D0200BB6C57 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				21A201D918295D7400ECBD3F /* readability.png */,
+				21A201DA18295D7400ECBD3F /* readability@2x.png */,
 				6F69CE2514C63D0200BB6C57 /* back_icon.png */,
 				6F69CE2614C63D0200BB6C57 /* back_icon@2x.png */,
 				6F69CE2714C63D0200BB6C57 /* forward_icon.png */,
@@ -158,6 +168,8 @@
 		6F96DB7114E014620088FAFB /* images */ = {
 			isa = PBXGroup;
 			children = (
+				21A201E5182985EF00ECBD3F /* black_cross.png */,
+				21A201E6182985EF00ECBD3F /* black_cross@2x.png */,
 				6F96DB7214E014620088FAFB /* first.png */,
 				6F96DB7314E014620088FAFB /* first@2x.png */,
 				6F96DB7414E014620088FAFB /* second.png */,
@@ -218,16 +230,20 @@
 			files = (
 				6F69CDBF14C6339C00BB6C57 /* InfoPlist.strings in Resources */,
 				6F69CDCB14C6339C00BB6C57 /* ViewController.xib in Resources */,
+				21A201DC18295D7400ECBD3F /* readability@2x.png in Resources */,
 				6F69CE2B14C63D0200BB6C57 /* back_icon.png in Resources */,
+				21A201E8182985EF00ECBD3F /* black_cross@2x.png in Resources */,
 				6F69CE2C14C63D0200BB6C57 /* back_icon@2x.png in Resources */,
 				6F69CE2D14C63D0200BB6C57 /* forward_icon.png in Resources */,
 				6F69CE2E14C63D0200BB6C57 /* forward_icon@2x.png in Resources */,
 				6F69CE2F14C63D0200BB6C57 /* reload_icon.png in Resources */,
+				21A201E7182985EF00ECBD3F /* black_cross.png in Resources */,
 				6F69CE3014C63D0200BB6C57 /* reload_icon@2x.png in Resources */,
 				6F69CE4614C6E89300BB6C57 /* icon.png in Resources */,
 				6F69CE4814C6E89600BB6C57 /* icon@2x.png in Resources */,
 				6F96DB7614E014620088FAFB /* first.png in Resources */,
 				6F96DB7714E014620088FAFB /* first@2x.png in Resources */,
+				21A201DB18295D7400ECBD3F /* readability.png in Resources */,
 				6F96DB7814E014620088FAFB /* second.png in Resources */,
 				6F96DB7914E014620088FAFB /* second@2x.png in Resources */,
 				E2EC79A2161033B2002A923D /* Default-568h@2x.png in Resources */,

@@ -56,6 +56,7 @@ typedef enum {
     BOOL showURLStringOnActionSheetTitle;
     BOOL showPageTitleOnTitleBar;
     BOOL showReloadButton;
+    BOOL showReadabilityButton;
     BOOL showActionButton;
     UIBarStyle barStyle;
     NSString *modalDismissButtonTitle;
@@ -71,13 +72,16 @@ typedef enum {
 @property (nonatomic, assign) BOOL showURLStringOnActionSheetTitle;
 @property (nonatomic, assign) BOOL showPageTitleOnTitleBar;
 @property (nonatomic, assign) BOOL showReloadButton;
+@property (nonatomic, assign) BOOL showReadabilityButton;
 @property (nonatomic, assign) BOOL showActionButton;
 @property (nonatomic, assign) UIBarStyle barStyle;
 @property (nonatomic, strong) NSString *modalDismissButtonTitle;
+@property (nonatomic, strong) UIImage *modalDismissButtonImage;
+
 
 // Public Methods
-- (id)initWithUrl:(NSURL*)url;
+- (id)initWithUrl:(NSURL*)url withReadability:(BOOL)readability;
 - (void)setFixedTitleBarText:(NSString*)newTitleBarText;
-- (void)loadURL:(NSURL*)url;
+- (void)loadURL:(NSURL*)url withReadability:(BOOL)readability;
 - (void)dismissController;
 @end

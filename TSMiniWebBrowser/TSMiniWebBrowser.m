@@ -26,6 +26,15 @@
 
 #import "TSMiniWebBrowser.h"
 
+#define READABILITY_URL_PREFIX (@"http://www.readability.com/m?url=")
+#define READABILITY_FAILED_PREFIX (@"http://www.readability.com/articles/fail?url=")
+
+@interface TSMiniWebBrowser()
+
+@property (nonatomic, assign) BOOL readability;
+
+@end
+
 @implementation TSMiniWebBrowser
 
 @synthesize delegate;
@@ -33,6 +42,7 @@
 @synthesize showURLStringOnActionSheetTitle;
 @synthesize showPageTitleOnTitleBar;
 @synthesize showReloadButton;
+@synthesize showReadabilityButton;
 @synthesize showActionButton;
 @synthesize barStyle;
 @synthesize modalDismissButtonTitle;
@@ -76,6 +86,23 @@ enum actionSheetButtonIndex {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
+- (NSString *)URLEncodedString:(NSString *)str {
+    CFStringRef url = CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)str, NULL, CFSTR("!*'();:@&=+$,/?%#[]"), kCFStringEncodingUTF8);
+    NSString *result = (__bridge NSString *)url;
+	return result;
+}
+
+- (NSString *)URLDecodedString:(NSString *)str {
+    CFStringRef url = CFURLCreateStringByReplacingPercentEscapesUsingEncoding(kCFAllocatorDefault, (CFStringRef)str, CFSTR(""), kCFStringEncodingUTF8);
+	NSString *result = (__bridge NSString *)url;
+    return result;
+}
+
+- (NSURL *)readabilityURLFromString:(NSString *)url
+{
+    return [NSURL URLWithString:[READABILITY_URL_PREFIX stringByAppendingString:[self URLEncodedString:url]]];
+}
+
 //Added in the dealloc method to remove the webview delegate, because if you use this in a navigation controller
 //TSMiniWebBrowser can get deallocated while the page is still loading and the web view will call its delegate-- resulting in a crash
 -(void)dealloc
@@ -88,6 +115,9 @@ enum actionSheetButtonIndex {
 // This method is only used in modal mode
 -(void) initTitleBar {
     UIBarButtonItem *buttonDone = [[UIBarButtonItem alloc] initWithTitle:modalDismissButtonTitle style:UIBarButtonItemStyleBordered target:self action:@selector(dismissController)];
+    if (self.modalDismissButtonImage) {
+        buttonDone = [[UIBarButtonItem alloc] initWithImage:self.modalDismissButtonImage style:UIBarButtonItemStyleBordered target:self action:@selector(dismissController)];
+    }
     
     UINavigationItem *titleBar = [[UINavigationItem alloc] initWithTitle:@""];
     titleBar.leftBarButtonItem = buttonDone;
@@ -131,6 +161,8 @@ enum actionSheetButtonIndex {
     
     UIBarButtonItem *fixedSpace2 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     fixedSpace2.width = 20;
+
+    UIBarButtonItem *buttonReadability = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"readability.png"] style:UIBarButtonItemStylePlain target:self action:@selector(readabilityButtonTouchUp:)];
     
     UIBarButtonItem *buttonAction = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(buttonActionTouchUp:)];
     
@@ -150,6 +182,10 @@ enum actionSheetButtonIndex {
     [toolBarButtons addObject:buttonContainer];
     if (showReloadButton) { 
         [toolBarButtons addObject:buttonReload];
+    }
+    if (showReadabilityButton) {
+        [toolBarButtons addObject:fixedSpace2];
+        [toolBarButtons addObject:buttonReadability];
     }
     if (showActionButton) {
         [toolBarButtons addObject:fixedSpace2];
@@ -189,10 +225,12 @@ enum actionSheetButtonIndex {
 
 #pragma mark -
 
-- (id)initWithUrl:(NSURL*)url {
+- (id)initWithUrl:(NSURL*)url withReadability:(BOOL)readability{
     self = [self init];
     if(self)
     {
+        self.readability = readability;
+
         urlToLoad = url;
         
         // Defaults
@@ -200,6 +238,7 @@ enum actionSheetButtonIndex {
         showURLStringOnActionSheetTitle = YES;
         showPageTitleOnTitleBar = YES;
         showReloadButton = YES;
+        showReadabilityButton = YES;
         showActionButton = YES;
         modalDismissButtonTitle = NSLocalizedString(@"Done", nil);
         forcedTitleBarText = nil;
@@ -404,6 +443,23 @@ enum actionSheetButtonIndex {
     [self toggleBackForwardButtons];
 }
 
+- (void)readabilityButtonTouchUp:(id)sender {
+    NSString *currentUrl = [webView stringByEvaluatingJavaScriptFromString:@"location.href"];
+    if ([currentUrl hasPrefix:READABILITY_URL_PREFIX]) { // toggle
+        self.readability = NO;
+        [webView loadRequest:[NSURLRequest requestWithURL:
+                              [NSURL URLWithString:
+                               [self URLDecodedString:[currentUrl substringFromIndex:[READABILITY_URL_PREFIX length]]]
+                               ]]
+         ];
+        
+    } else {
+        self.readability = YES;
+        [webView reload];
+    }
+    
+}
+
 - (void)buttonActionTouchUp:(id)sender {
     [self showActionSheet];
 }
@@ -415,7 +471,9 @@ enum actionSheetButtonIndex {
     showPageTitleOnTitleBar = NO;
 }
 
-- (void)loadURL:(NSURL*)url {
+- (void)loadURL:(NSURL*)url withReadability:(BOOL)readability {
+    self.readability = readability;
+    
     [webView loadRequest: [NSURLRequest requestWithURL: url]];
 }
 
@@ -431,35 +489,64 @@ enum actionSheetButtonIndex {
     }
 }
 
+
 #pragma mark - UIWebViewDelegate
 
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-    if ([[request.URL absoluteString] hasPrefix:@"sms:"]) {
+- (BOOL)webView:(UIWebView *)_webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+    
+    NSString *url = request.URL.absoluteString;
+    NSLog(@"URL = %@", url);
+    
+    if ([url hasPrefix:@"sms:"] || [url hasPrefix:@"tel:"]) {
         [[UIApplication sharedApplication] openURL:request.URL];
         return NO;
     }
     
-    if ([[request.URL absoluteString] hasPrefix:@"http://www.youtube.com/v/"] ||
-        [[request.URL absoluteString] hasPrefix:@"http://itunes.apple.com/"] ||
-        [[request.URL absoluteString] hasPrefix:@"http://phobos.apple.com/"]) {
+    if ([url hasPrefix:@"http://www.youtube.com/v/"] ||
+        [url hasPrefix:@"http://itunes.apple.com/"] ||
+        [url hasPrefix:@"http://phobos.apple.com/"]) {
         [[UIApplication sharedApplication] openURL:request.URL];
+        return NO;
+    }
+    
+    if ([url hasPrefix:@"about:"]) {
+        return YES;
+    }
+    
+    BOOL isReadabilityURL = [url rangeOfString:@".readability.com/"].location != NSNotFound;
+    
+    if (self.readability && !isReadabilityURL) {
+        // make all going through readability
+        urlToLoad = [NSURL URLWithString:url]; // store the non-readability url
+        self.readability = NO;
+        [_webView performSelector:@selector(loadRequest:) withObject:[NSURLRequest requestWithURL:[self readabilityURLFromString:url]] afterDelay:1.0f];
+        return NO;
+        
+    }
+    
+    if ([url hasPrefix:READABILITY_FAILED_PREFIX] ||
+        (![url hasPrefix:READABILITY_URL_PREFIX] && isReadabilityURL)
+        )
+    {
+        self.readability = NO; // skip readability filter
+        [_webView performSelector:@selector(loadRequest:) withObject:[NSURLRequest requestWithURL:urlToLoad] afterDelay:1.0f];         // return to original site
         return NO;
     }
     
     if ([self.delegate respondsToSelector:@selector(webView:shouldStartLoadWithRequest:navigationType:)]) {
         return [self.delegate webView:webView shouldStartLoadWithRequest:request navigationType:navigationType];
-    } else {
-        return YES;
     }
+    
+    return YES;
 }
 
-- (void)webViewDidStartLoad:(UIWebView *)webView {
+- (void)webViewDidStartLoad:(UIWebView *)_webView {
     [self toggleBackForwardButtons];
     
     [self showActivityIndicators];
     
     if ([self.delegate respondsToSelector:@selector(webViewDidStartLoad:)]) {
-        [self.delegate webViewDidStartLoad:webView];
+        [self.delegate webViewDidStartLoad:_webView];
     }
 }
 
@@ -474,12 +561,16 @@ enum actionSheetButtonIndex {
     
     [self toggleBackForwardButtons];
     
+    if ([_webView.request.URL.absoluteString hasPrefix:READABILITY_URL_PREFIX]) {
+        self.readability = YES; // resume the readability on readability pages
+    }
+
     if ([self.delegate respondsToSelector:@selector(webViewDidFinishLoad:)]) {
         [self.delegate webViewDidFinishLoad:_webView];
     }
 }
 
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
+- (void)webView:(UIWebView *)_webView didFailLoadWithError:(NSError *)error {
     [self hideActivityIndicators];
     
     // To avoid getting an error alert when you click on a link
@@ -497,7 +588,7 @@ enum actionSheetButtonIndex {
 	[alert show];
     
     if ([self.delegate respondsToSelector:@selector(webView:didFailLoadWithError:)]) {
-        [self.delegate webView:webView didFailLoadWithError:error];
+        [self.delegate webView:_webView didFailLoadWithError:error];
     }
 }
 
