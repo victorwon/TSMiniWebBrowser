@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = 'TSMiniWebBrowser'
-  s.version      = '1.1.1'
+  s.version      = '1.1.2'
   s.platform     = :ios
   s.license      = 'MIT'
   s.summary      = 'An in-app web browser control for iOS apps.'
