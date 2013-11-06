@@ -339,7 +339,10 @@ enum actionSheetButtonIndex {
         // Chrome is installed, add the option to open in chrome.
         [actionSheet addButtonWithTitle:NSLocalizedString(@"Open in Chrome", nil)];
     }
-    
+
+    [actionSheet addButtonWithTitle:NSLocalizedString(@"Scroll to Top", nil)];
+    [actionSheet addButtonWithTitle:NSLocalizedString(@"Scroll to Bottom", nil)];
+
 #ifdef DEBUG
     [actionSheet addButtonWithTitle:@"Debug"];
 #endif
@@ -394,6 +397,12 @@ enum actionSheetButtonIndex {
             // Open the URL with Chrome.
             [[UIApplication sharedApplication] openURL:chromeURL];
         }
+    } else if ([buttonTitle isEqualToString:NSLocalizedString(@"Scroll to Top", nil)]) {
+        [webView stringByEvaluatingJavaScriptFromString:@"window.scrollTo(0,0)"];
+    
+    } else if ([buttonTitle isEqualToString:NSLocalizedString(@"Scroll to Bottom", nil)]) {
+        [webView stringByEvaluatingJavaScriptFromString:@"window.scrollTo(0,10000000)"];
+    
     } else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Debug"]) {
         NSLog(@"HTML -->\n%@", [webView stringByEvaluatingJavaScriptFromString:@"document.documentElement.outerHTML"]);
     }
