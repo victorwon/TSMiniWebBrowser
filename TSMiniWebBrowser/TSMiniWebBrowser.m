@@ -210,6 +210,7 @@ enum actionSheetButtonIndex {
     [self.view addSubview:webView];
     
     webView.scalesPageToFit = YES;
+    webView.scrollView.scrollsToTop = YES;
     
     webView.delegate = self;
     
@@ -315,38 +316,6 @@ enum actionSheetButtonIndex {
     return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
 
-/* Fix for landscape + zooming webview bug.
- * If you experience perfomance problems on old devices ratation, comment out this method.
- */
-- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-    CGFloat ratioAspect = webView.bounds.size.width/webView.bounds.size.height;
-    switch (toInterfaceOrientation) {
-        case UIInterfaceOrientationPortraitUpsideDown:
-        case UIInterfaceOrientationPortrait:
-            // Going to Portrait mode
-            for (UIScrollView *scroll in [webView subviews]) { //we get the scrollview 
-                // Make sure it really is a scroll view and reset the zoom scale.
-                if ([scroll respondsToSelector:@selector(setZoomScale:)]){
-                    scroll.minimumZoomScale = scroll.minimumZoomScale/ratioAspect;
-                    scroll.maximumZoomScale = scroll.maximumZoomScale/ratioAspect;
-                    [scroll setZoomScale:(scroll.zoomScale/ratioAspect) animated:YES];
-                }
-            }
-            break;
-        default:
-            // Going to Landscape mode
-            for (UIScrollView *scroll in [webView subviews]) { //we get the scrollview 
-                // Make sure it really is a scroll view and reset the zoom scale.
-                if ([scroll respondsToSelector:@selector(setZoomScale:)]){
-                    scroll.minimumZoomScale = scroll.minimumZoomScale *ratioAspect;
-                    scroll.maximumZoomScale = scroll.maximumZoomScale *ratioAspect;
-                    [scroll setZoomScale:(scroll.zoomScale*ratioAspect) animated:YES];
-                }
-            }
-            break;
-    }
-}
-
 - (void)didReceiveMemoryWarning
 {
     // Releases the view if it doesn't have a superview.
@@ -370,6 +339,10 @@ enum actionSheetButtonIndex {
         // Chrome is installed, add the option to open in chrome.
         [actionSheet addButtonWithTitle:NSLocalizedString(@"Open in Chrome", nil)];
     }
+    
+#ifdef DEBUG
+    [actionSheet addButtonWithTitle:@"Debug"];
+#endif
     
     actionSheet.cancelButtonIndex = [actionSheet addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
 	actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
@@ -395,10 +368,11 @@ enum actionSheetButtonIndex {
         theURL = urlToLoad;
     }
     
-    if (buttonIndex == kSafariButtonIndex) {
+    NSString *buttonTitle = [actionSheet buttonTitleAtIndex:buttonIndex];
+    if ([buttonTitle isEqualToString:NSLocalizedString(@"Open in Safari", nil)]) {
         [[UIApplication sharedApplication] openURL:theURL];
     }
-    else if (buttonIndex == kChromeButtonIndex) {
+    else if ([buttonTitle isEqualToString:NSLocalizedString(@"Open in Chrome", nil)]) {
         NSString *scheme = theURL.scheme;
         
         // Replace the URL Scheme with the Chrome equivalent.
@@ -420,6 +394,8 @@ enum actionSheetButtonIndex {
             // Open the URL with Chrome.
             [[UIApplication sharedApplication] openURL:chromeURL];
         }
+    } else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Debug"]) {
+        NSLog(@"HTML -->\n%@", [webView stringByEvaluatingJavaScriptFromString:@"document.documentElement.outerHTML"]);
     }
 }
 
@@ -495,7 +471,7 @@ enum actionSheetButtonIndex {
 - (BOOL)webView:(UIWebView *)_webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     
     NSString *url = request.URL.absoluteString;
-    NSLog(@"URL = %@", url);
+//    NSLog(@"URL = %@", url);
     
     if ([url hasPrefix:@"sms:"] || [url hasPrefix:@"tel:"]) {
         [[UIApplication sharedApplication] openURL:request.URL];
