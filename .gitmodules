@@ -1,0 +1,3 @@
+[submodule "SuProgress"]
+	path = SuProgress
+	url = https://github.com/MobileMakersAcademy/SuProgress.git

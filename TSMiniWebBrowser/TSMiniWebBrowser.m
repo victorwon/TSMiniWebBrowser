@@ -25,6 +25,7 @@
 //
 
 #import "TSMiniWebBrowser.h"
+#import "SuProgress.h"
 
 #define READABILITY_URL_PREFIX (@"http://www.readability.com/m?url=")
 #define READABILITY_FAILED_PREFIX (@"http://www.readability.com/articles/fail?url=")
@@ -213,6 +214,9 @@ enum actionSheetButtonIndex {
     webView.scrollView.scrollsToTop = YES;
     
     webView.delegate = self;
+    if (self.navigationController && self.navigationController.navigationBar) {
+        [self SuProgressForWebView:webView];
+    }
     
     for(NSHTTPCookie *cookie in [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies]) {
         [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookie];
