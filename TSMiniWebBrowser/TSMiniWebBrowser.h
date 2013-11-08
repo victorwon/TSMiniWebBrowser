@@ -77,7 +77,7 @@ typedef enum {
 @property (nonatomic, assign) UIBarStyle barStyle;
 @property (nonatomic, strong) NSString *modalDismissButtonTitle;
 @property (nonatomic, strong) UIImage *modalDismissButtonImage;
-
+@property (nonatomic, strong) UIColor *progressBarTintColor;
 
 // Public Methods
 - (id)initWithUrl:(NSURL*)url withReadability:(BOOL)readability;

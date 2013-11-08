@@ -25,14 +25,17 @@
 //
 
 #import "TSMiniWebBrowser.h"
-#import "SuProgress.h"
+#import "NJKWebViewProgress.h"
+#import "UINavigationController+SGProgress.h"
 
 #define READABILITY_URL_PREFIX (@"http://www.readability.com/m?url=")
 #define READABILITY_FAILED_PREFIX (@"http://www.readability.com/articles/fail?url=")
 
-@interface TSMiniWebBrowser()
+@interface TSMiniWebBrowser() <NJKWebViewProgressDelegate>
 
 @property (nonatomic, assign) BOOL readability;
+@property (nonatomic, retain) NJKWebViewProgress *progressProxy;
+@property (nonatomic, weak) UINavigationController *progressViewContainer;
 
 @end
 
@@ -108,7 +111,13 @@ enum actionSheetButtonIndex {
 //TSMiniWebBrowser can get deallocated while the page is still loading and the web view will call its delegate-- resulting in a crash
 -(void)dealloc
 {
-    [webView setDelegate:nil];
+    [self.progressViewContainer cancelSGProgress];
+    self.progressViewContainer = nil;
+
+    self.progressProxy = nil;
+    webView.delegate = nil;
+    
+    [self hideActivityIndicators];
 }
 
 #pragma mark - Init
@@ -213,9 +222,16 @@ enum actionSheetButtonIndex {
     webView.scalesPageToFit = YES;
     webView.scrollView.scrollsToTop = YES;
     
-    webView.delegate = self;
     if (self.navigationController && self.navigationController.navigationBar) {
-        [self SuProgressForWebView:webView];
+        self.progressProxy = [[NJKWebViewProgress alloc] init];
+        webView.delegate = self.progressProxy;
+        self.progressProxy.webViewProxyDelegate = self;
+        self.progressProxy.progressDelegate = self;
+        
+        self.progressViewContainer = self.navigationController;
+        
+    } else {
+        webView.delegate = self;
     }
     
     for(NSHTTPCookie *cookie in [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies]) {
@@ -579,6 +595,13 @@ enum actionSheetButtonIndex {
     if ([self.delegate respondsToSelector:@selector(webView:didFailLoadWithError:)]) {
         [self.delegate webView:_webView didFailLoadWithError:error];
     }
+}
+
+#pragma mark - NJKWebViewProgressDelegate
+-(void)webViewProgress:(NJKWebViewProgress *)webViewProgress updateProgress:(float)progress
+{
+    [self.progressViewContainer setSGProgressPercentage:progress*100
+                                           andTintColor:self.progressBarTintColor? self.progressBarTintColor: self.self.progressViewContainer.navigationBar.tintColor];
 }
 
 @end

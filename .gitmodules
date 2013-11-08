@@ -1,3 +1,9 @@
 [submodule "SuProgress"]
 	path = SuProgress
 	url = https://github.com/MobileMakersAcademy/SuProgress.git
+[submodule "SGNavigationProgress"]
+	path = SGNavigationProgress
+	url = https://github.com/sgryschuk/SGNavigationProgress.git
+[submodule "NJKWebViewProgress"]
+	path = NJKWebViewProgress
+	url = https://github.com/ninjinkun/NJKWebViewProgress.git

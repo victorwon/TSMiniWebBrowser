@@ -10,6 +10,8 @@
 	<string>TSMiniWebBrowserDemo</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
+		<key>208727E0-14D7-4C8C-8B18-870B64A82996</key>
+		<string>https://github.com/sgryschuk/SGNavigationProgress.git</string>
 		<key>971DA6C0-E6FD-4D01-8BF1-686FCCBC7C2F</key>
 		<string>https://github.com/victorwon/TSMiniWebBrowser.git</string>
 		<key>EBA70FB2-D640-42A0-B302-4BF5192EC2BD</key>
@@ -19,6 +21,8 @@
 	<string>TSMiniWebBrowserDemo.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
+		<key>208727E0-14D7-4C8C-8B18-870B64A82996</key>
+		<string>../../SGNavigationProgress</string>
 		<key>971DA6C0-E6FD-4D01-8BF1-686FCCBC7C2F</key>
 		<string>../..</string>
 		<key>EBA70FB2-D640-42A0-B302-4BF5192EC2BD</key>
@@ -32,6 +36,14 @@
 	<string>971DA6C0-E6FD-4D01-8BF1-686FCCBC7C2F</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>208727E0-14D7-4C8C-8B18-870B64A82996</string>
+			<key>IDESourceControlWCCName</key>
+			<string>SGNavigationProgress</string>
+		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>

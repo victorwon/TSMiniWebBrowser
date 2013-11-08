@@ -11,9 +11,8 @@
 		21A201DC18295D7400ECBD3F /* readability@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 21A201DA18295D7400ECBD3F /* readability@2x.png */; };
 		21A201E7182985EF00ECBD3F /* black_cross.png in Resources */ = {isa = PBXBuildFile; fileRef = 21A201E5182985EF00ECBD3F /* black_cross.png */; };
 		21A201E8182985EF00ECBD3F /* black_cross@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 21A201E6182985EF00ECBD3F /* black_cross@2x.png */; };
-		21D90DB5182C3ED80090F7C1 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 21D90DAD182C3ED80090F7C1 /* .gitignore */; };
-		21D90DB7182C3ED80090F7C1 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 21D90DB2182C3ED80090F7C1 /* README.md */; };
-		21D90DB8182C3ED80090F7C1 /* SuProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = 21D90DB4182C3ED80090F7C1 /* SuProgress.m */; };
+		21D90E21182D511A0090F7C1 /* NJKWebViewProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = 21D90E20182D511A0090F7C1 /* NJKWebViewProgress.m */; };
+		21D90E25182D51310090F7C1 /* UINavigationController+SGProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = 21D90E24182D51310090F7C1 /* UINavigationController+SGProgress.m */; };
 		6F69CDB514C6339C00BB6C57 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F69CDB414C6339C00BB6C57 /* UIKit.framework */; };
 		6F69CDB714C6339C00BB6C57 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F69CDB614C6339C00BB6C57 /* Foundation.framework */; };
 		6F69CDB914C6339C00BB6C57 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F69CDB814C6339C00BB6C57 /* CoreGraphics.framework */; };
@@ -38,27 +37,15 @@
 		E2EC79A2161033B2002A923D /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E2EC79A1161033B2002A923D /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		21D90DBA182C3ED80090F7C1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 21D90DAF182C3ED80090F7C1 /* Example.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 63614CCF17F478890038C686;
-			remoteInfo = Example;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
 		21A201D918295D7400ECBD3F /* readability.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = readability.png; sourceTree = "<group>"; };
 		21A201DA18295D7400ECBD3F /* readability@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "readability@2x.png"; sourceTree = "<group>"; };
 		21A201E5182985EF00ECBD3F /* black_cross.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = black_cross.png; sourceTree = "<group>"; };
 		21A201E6182985EF00ECBD3F /* black_cross@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "black_cross@2x.png"; sourceTree = "<group>"; };
-		21D90DAD182C3ED80090F7C1 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		21D90DAE182C3ED80090F7C1 /* example.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = example.m; sourceTree = "<group>"; };
-		21D90DAF182C3ED80090F7C1 /* Example.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = Example.xcodeproj; sourceTree = "<group>"; };
-		21D90DB2182C3ED80090F7C1 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
-		21D90DB3182C3ED80090F7C1 /* SuProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuProgress.h; sourceTree = "<group>"; };
-		21D90DB4182C3ED80090F7C1 /* SuProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuProgress.m; sourceTree = "<group>"; };
+		21D90E1F182D511A0090F7C1 /* NJKWebViewProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NJKWebViewProgress.h; sourceTree = "<group>"; };
+		21D90E20182D511A0090F7C1 /* NJKWebViewProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NJKWebViewProgress.m; sourceTree = "<group>"; };
+		21D90E23182D51310090F7C1 /* UINavigationController+SGProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+SGProgress.h"; sourceTree = "<group>"; };
+		21D90E24182D51310090F7C1 /* UINavigationController+SGProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+SGProgress.m"; sourceTree = "<group>"; };
 		6F69CDB014C6339C00BB6C57 /* TSMiniWebBrowserDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TSMiniWebBrowserDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6F69CDB414C6339C00BB6C57 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		6F69CDB614C6339C00BB6C57 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -103,25 +90,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		21D90DAC182C3ED80090F7C1 /* SuProgress */ = {
+		21D90E1E182D511A0090F7C1 /* NJKWebViewProgress */ = {
 			isa = PBXGroup;
 			children = (
-				21D90DAD182C3ED80090F7C1 /* .gitignore */,
-				21D90DAE182C3ED80090F7C1 /* example.m */,
-				21D90DAF182C3ED80090F7C1 /* Example.xcodeproj */,
-				21D90DB2182C3ED80090F7C1 /* README.md */,
-				21D90DB3182C3ED80090F7C1 /* SuProgress.h */,
-				21D90DB4182C3ED80090F7C1 /* SuProgress.m */,
+				21D90E1F182D511A0090F7C1 /* NJKWebViewProgress.h */,
+				21D90E20182D511A0090F7C1 /* NJKWebViewProgress.m */,
 			);
-			path = SuProgress;
+			name = NJKWebViewProgress;
+			path = NJKWebViewProgress/NJKWebViewProgress;
 			sourceTree = "<group>";
 		};
-		21D90DB0182C3ED80090F7C1 /* Products */ = {
+		21D90E22182D51310090F7C1 /* UINavigationController+SGProgress */ = {
 			isa = PBXGroup;
 			children = (
-				21D90DBB182C3ED80090F7C1 /* Example.app */,
+				21D90E23182D51310090F7C1 /* UINavigationController+SGProgress.h */,
+				21D90E24182D51310090F7C1 /* UINavigationController+SGProgress.m */,
 			);
-			name = Products;
+			name = "UINavigationController+SGProgress";
+			path = "SGNavigationProgress/SGNavigationProgress/UINavigationController+SGProgress";
 			sourceTree = "<group>";
 		};
 		6F69CDA514C6339C00BB6C57 = {
@@ -130,7 +116,8 @@
 				E2EC79A1161033B2002A923D /* Default-568h@2x.png */,
 				6F69CE4714C6E89600BB6C57 /* icon@2x.png */,
 				6F69CE4514C6E89300BB6C57 /* icon.png */,
-				21D90DAC182C3ED80090F7C1 /* SuProgress */,
+				21D90E22182D51310090F7C1 /* UINavigationController+SGProgress */,
+				21D90E1E182D511A0090F7C1 /* NJKWebViewProgress */,
 				6F69CDD114C636D700BB6C57 /* TSMiniWebBrowser */,
 				6F69CDBA14C6339C00BB6C57 /* TSMiniWebBrowserDemo */,
 				6F69CDB314C6339C00BB6C57 /* Frameworks */,
@@ -253,16 +240,11 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 6F69CDA514C6339C00BB6C57;
 			productRefGroup = 6F69CDB114C6339C00BB6C57 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 21D90DB0182C3ED80090F7C1 /* Products */;
-					ProjectRef = 21D90DAF182C3ED80090F7C1 /* Example.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				6F69CDAF14C6339C00BB6C57 /* TSMiniWebBrowserDemo */,
@@ -270,25 +252,13 @@
 		};
 /* End PBXProject section */
 
-/* Begin PBXReferenceProxy section */
-		21D90DBB182C3ED80090F7C1 /* Example.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = Example.app;
-			remoteRef = 21D90DBA182C3ED80090F7C1 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
-
 /* Begin PBXResourcesBuildPhase section */
 		6F69CDAE14C6339C00BB6C57 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				21D90DB5182C3ED80090F7C1 /* .gitignore in Resources */,
 				6F69CDBF14C6339C00BB6C57 /* InfoPlist.strings in Resources */,
 				6F69CDCB14C6339C00BB6C57 /* ViewController.xib in Resources */,
-				21D90DB7182C3ED80090F7C1 /* README.md in Resources */,
 				21A201DC18295D7400ECBD3F /* readability@2x.png in Resources */,
 				6F69CE2B14C63D0200BB6C57 /* back_icon.png in Resources */,
 				21A201E8182985EF00ECBD3F /* black_cross@2x.png in Resources */,
@@ -316,11 +286,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				21D90E21182D511A0090F7C1 /* NJKWebViewProgress.m in Sources */,
 				6F69CDC114C6339C00BB6C57 /* main.m in Sources */,
 				6F69CDC514C6339C00BB6C57 /* AppDelegate.m in Sources */,
 				6F69CDC814C6339C00BB6C57 /* ViewController.m in Sources */,
+				21D90E25182D51310090F7C1 /* UINavigationController+SGProgress.m in Sources */,
 				6F69CDD514C636E100BB6C57 /* TSMiniWebBrowser.m in Sources */,
-				21D90DB8182C3ED80090F7C1 /* SuProgress.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
