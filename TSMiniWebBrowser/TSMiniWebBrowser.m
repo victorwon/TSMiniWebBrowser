@@ -113,7 +113,7 @@ enum actionSheetButtonIndex {
 {
     [self.progressViewContainer cancelSGProgress];
     self.progressViewContainer = nil;
-
+    
     self.progressProxy = nil;
     webView.delegate = nil;
     
@@ -171,7 +171,7 @@ enum actionSheetButtonIndex {
     
     UIBarButtonItem *fixedSpace2 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     fixedSpace2.width = 20;
-
+    
     UIBarButtonItem *buttonReadability = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"readability.png"] style:UIBarButtonItemStylePlain target:self action:@selector(readabilityButtonTouchUp:)];
     
     UIBarButtonItem *buttonAction = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(buttonActionTouchUp:)];
@@ -190,7 +190,7 @@ enum actionSheetButtonIndex {
     [toolBarButtons addObject:buttonGoForward];
     [toolBarButtons addObject:flexibleSpace];
     [toolBarButtons addObject:buttonContainer];
-    if (showReloadButton) { 
+    if (showReloadButton) {
         [toolBarButtons addObject:buttonReload];
     }
     if (showReadabilityButton) {
@@ -251,7 +251,7 @@ enum actionSheetButtonIndex {
     if(self)
     {
         self.readability = readability;
-
+        
         urlToLoad = url;
         
         // Defaults
@@ -302,7 +302,8 @@ enum actionSheetButtonIndex {
     }
     
     // Status bar style
-    [[UIApplication sharedApplication] setStatusBarStyle:barStyle animated:YES];
+    UIStatusBarStyle statusStyle = barStyle == UIBarStyleDefault? UIStatusBarStyleLightContent: UIStatusBarStyleDefault;
+    [[UIApplication sharedApplication] setStatusBarStyle:statusStyle animated:YES];
     
     // UI state
     buttonGoBack.enabled = NO;
@@ -327,7 +328,8 @@ enum actionSheetButtonIndex {
     }
     
     // Restore Status bar style
-    [[UIApplication sharedApplication] setStatusBarStyle:originalBarStyle animated:NO];
+    UIStatusBarStyle statusStyle = originalBarStyle == UIBarStyleDefault? UIStatusBarStyleLightContent: UIStatusBarStyleDefault;
+    [[UIApplication sharedApplication] setStatusBarStyle:statusStyle animated:NO];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -359,10 +361,10 @@ enum actionSheetButtonIndex {
         // Chrome is installed, add the option to open in chrome.
         [actionSheet addButtonWithTitle:NSLocalizedString(@"Open in Chrome", nil)];
     }
-
+    
     [actionSheet addButtonWithTitle:NSLocalizedString(@"Scroll to Top", nil)];
     [actionSheet addButtonWithTitle:NSLocalizedString(@"Scroll to Bottom", nil)];
-
+    
 #ifdef DEBUG
     [actionSheet addButtonWithTitle:@"Debug"];
 #endif
@@ -419,10 +421,10 @@ enum actionSheetButtonIndex {
         }
     } else if ([buttonTitle isEqualToString:NSLocalizedString(@"Scroll to Top", nil)]) {
         [webView stringByEvaluatingJavaScriptFromString:@"window.scrollTo(0,0)"];
-    
+        
     } else if ([buttonTitle isEqualToString:NSLocalizedString(@"Scroll to Bottom", nil)]) {
         [webView stringByEvaluatingJavaScriptFromString:@"window.scrollTo(0,10000000)"];
-    
+        
     } else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Debug"]) {
         NSLog(@"HTML -->\n%@", [webView stringByEvaluatingJavaScriptFromString:@"document.documentElement.outerHTML"]);
     }
@@ -486,7 +488,7 @@ enum actionSheetButtonIndex {
     if ( webView.loading ) {
         [webView stopLoading];
     }
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
     
     // Notify the delegate
     if (self.delegate != NULL && [self.delegate respondsToSelector:@selector(tsMiniWebBrowserDidDismiss)]) {
@@ -500,15 +502,20 @@ enum actionSheetButtonIndex {
 - (BOOL)webView:(UIWebView *)_webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     
     NSString *url = request.URL.absoluteString;
-//    NSLog(@"URL = %@", url);
+    NSLog(@"URL = %@", url);
     
-    if ([url hasPrefix:@"sms:"] || [url hasPrefix:@"tel:"]) {
-        [[UIApplication sharedApplication] openURL:request.URL];
+    if ([url hasPrefix:@"sms:"] ||
+        [url hasPrefix:@"http://itunes.apple.com/"] ||
+        [url hasPrefix:@"tel:"]) {
+        if (navigationType == UIWebViewNavigationTypeLinkClicked) {
+            [[UIApplication sharedApplication] openURL:request.URL];
+        } else {
+            NSLog(@"Stop access to URL as it's not triggered by user action: %@", url);
+        }
         return NO;
     }
     
     if ([url hasPrefix:@"http://www.youtube.com/v/"] ||
-        [url hasPrefix:@"http://itunes.apple.com/"] ||
         [url hasPrefix:@"http://phobos.apple.com/"]) {
         [[UIApplication sharedApplication] openURL:request.URL];
         return NO;
@@ -569,7 +576,7 @@ enum actionSheetButtonIndex {
     if ([_webView.request.URL.absoluteString hasPrefix:READABILITY_URL_PREFIX]) {
         self.readability = YES; // resume the readability on readability pages
     }
-
+    
     if ([self.delegate respondsToSelector:@selector(webViewDidFinishLoad:)]) {
         [self.delegate webViewDidFinishLoad:_webView];
     }
@@ -583,7 +590,7 @@ enum actionSheetButtonIndex {
     if ([error code] == NSURLErrorCancelled || [error code] == 102) {
         return;
     }
-
+    
     // Show error alert
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Could not load page", nil)
                                                     message:error.localizedDescription
