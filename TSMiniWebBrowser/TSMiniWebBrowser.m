@@ -93,13 +93,13 @@ enum actionSheetButtonIndex {
 
 - (NSString *)URLEncodedString:(NSString *)str {
     CFStringRef url = CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)str, NULL, CFSTR("!*'();:@&=+$,/?%#[]"), kCFStringEncodingUTF8);
-    NSString *result = (__bridge NSString *)url;
+    NSString *result = (__bridge_transfer NSString *)url;
 	return result;
 }
 
 - (NSString *)URLDecodedString:(NSString *)str {
     CFStringRef url = CFURLCreateStringByReplacingPercentEscapesUsingEncoding(kCFAllocatorDefault, (CFStringRef)str, CFSTR(""), kCFStringEncodingUTF8);
-	NSString *result = (__bridge NSString *)url;
+	NSString *result = (__bridge_transfer NSString *)url;
     return result;
 }
 
