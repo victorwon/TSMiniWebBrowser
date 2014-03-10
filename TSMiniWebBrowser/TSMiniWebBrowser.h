@@ -28,7 +28,8 @@
 
 @protocol TSMiniWebBrowserDelegate <UIWebViewDelegate>
 @optional
--(void) tsMiniWebBrowserDidDismiss;
+-(void)tsMiniWebBrowserDidDismiss;
+-(BOOL)webView:(UIWebView *)_webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType;
 @end
 
 typedef enum {
@@ -80,8 +81,6 @@ typedef enum {
 @property (nonatomic, strong) NSString *modalDismissButtonTitle;
 @property (nonatomic, strong) UIImage *modalDismissButtonImage;
 @property (nonatomic, strong) UIColor *progressBarTintColor;
-@property (nonatomic, strong) NSString *domainLockList;
-@property (nonatomic, strong) NSString *currentURL;
 
 // Public Methods
 - (id)initWithUrl:(NSURL*)url withReadability:(BOOL)readability;

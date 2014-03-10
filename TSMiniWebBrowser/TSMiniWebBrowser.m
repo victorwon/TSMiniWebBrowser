@@ -51,8 +51,6 @@
 @synthesize barStyle;
 @synthesize modalDismissButtonTitle;
 @synthesize barTintColor;
-@synthesize domainLockList;
-@synthesize currentURL;
 
 #define kStatusBarHeight ([[[UIDevice currentDevice] systemVersion] compare:@"7.0" options:NSNumericSearch] != NSOrderedAscending ? 20 : 0)
 #define kTitleBarStart   kStatusBarHeight
@@ -576,47 +574,6 @@ enum actionSheetButtonIndex {
         [url hasPrefix:@"http://phobos.apple.com/"]) {
         [[UIApplication sharedApplication] openURL:request.URL];
         return NO;
-    }
-    
-    if (domainLockList == nil || [domainLockList isEqualToString:@""])
-    {
-        if (navigationType == UIWebViewNavigationTypeLinkClicked)
-        {
-            currentURL = request.URL.absoluteString;
-        }
-        
-        return YES;
-    }
-    
-    else
-    {
-        NSArray *domainList = [domainLockList componentsSeparatedByString:@","];
-        BOOL sendToSafari = YES;
-        
-        for (int x = 0; x < domainList.count; x++)
-        {
-            if ([[request.URL absoluteString] hasPrefix:(NSString *)[domainList objectAtIndex:x]] == YES)
-            {
-                sendToSafari = NO;
-            }
-        }
-        
-        if (sendToSafari == YES)
-        {
-            [[UIApplication sharedApplication] openURL:[request URL]];
-            
-            return NO;
-        }
-        
-        else
-        {
-            if (navigationType == UIWebViewNavigationTypeLinkClicked)
-            {
-                currentURL = request.URL.absoluteString;
-            }
-            
-            return YES;
-        }
     }
     
     if ([url hasPrefix:@"about:"]) {
