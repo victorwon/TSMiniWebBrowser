@@ -50,6 +50,9 @@
 @synthesize showActionButton;
 @synthesize barStyle;
 @synthesize modalDismissButtonTitle;
+@synthesize barTintColor;
+@synthesize domainLockList;
+@synthesize currentURL;
 
 #define kStatusBarHeight ([[[UIDevice currentDevice] systemVersion] compare:@"7.0" options:NSNumericSearch] != NSOrderedAscending ? 20 : 0)
 #define kTitleBarStart   kStatusBarHeight
@@ -204,6 +207,9 @@ enum actionSheetButtonIndex {
     
     // Set buttons to tool bar
     [toolBar setItems:toolBarButtons animated:YES];
+	
+	// Tint toolBar
+	[toolBar setTintColor:barTintColor];
 }
 
 -(void) initWebView {
@@ -264,6 +270,7 @@ enum actionSheetButtonIndex {
         modalDismissButtonTitle = NSLocalizedString(@"Done", nil);
         forcedTitleBarText = nil;
         barStyle = UIBarStyleDefault;
+		barTintColor = nil;
     }
     
     return self;
@@ -319,6 +326,20 @@ enum actionSheetButtonIndex {
     [super viewDidUnload];
 }
 
+- (void) viewWillAppear:(BOOL)animated
+{
+	for (id subview in self.view.subviews)
+	{
+		if ([subview isKindOfClass: [UIWebView class]])
+		{
+			UIWebView *sv = subview;
+			[sv.scrollView setScrollsToTop:NO];
+		}
+	}
+	
+	[webView.scrollView setScrollsToTop:YES];
+}
+
 -(void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
@@ -330,6 +351,9 @@ enum actionSheetButtonIndex {
     // Restore Status bar style
     UIStatusBarStyle statusStyle = originalBarStyle == UIBarStyleDefault? UIStatusBarStyleLightContent: UIStatusBarStyleDefault;
     [[UIApplication sharedApplication] setStatusBarStyle:statusStyle animated:NO];
+    
+    // Stop loading
+    [webView stopLoading];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -337,6 +361,39 @@ enum actionSheetButtonIndex {
     // Return YES for supported orientations
     return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
+
+/* Fix for landscape + zooming webview bug.
+ * If you experience perfomance problems on old devices ratation, comment out this method.
+ */
+//- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+//    CGFloat ratioAspect = webView.bounds.size.width/webView.bounds.size.height;
+//    switch (toInterfaceOrientation) {
+//        case UIInterfaceOrientationPortraitUpsideDown:
+//        case UIInterfaceOrientationPortrait:
+//            // Going to Portrait mode
+//            for (UIScrollView *scroll in [webView subviews]) { //we get the scrollview
+//                // Make sure it really is a scroll view and reset the zoom scale.
+//                if ([scroll respondsToSelector:@selector(setZoomScale:)]){
+//                    scroll.minimumZoomScale = scroll.minimumZoomScale/ratioAspect;
+//                    scroll.maximumZoomScale = scroll.maximumZoomScale/ratioAspect;
+//                    [scroll setZoomScale:(scroll.zoomScale/ratioAspect) animated:YES];
+//                }
+//            }
+//            break;
+//        default:
+//            // Going to Landscape mode
+//            for (UIScrollView *scroll in [webView subviews]) { //we get the scrollview
+//                // Make sure it really is a scroll view and reset the zoom scale.
+//                if ([scroll respondsToSelector:@selector(setZoomScale:)]){
+//                    scroll.minimumZoomScale = scroll.minimumZoomScale *ratioAspect;
+//                    scroll.maximumZoomScale = scroll.maximumZoomScale *ratioAspect;
+//                    [scroll setZoomScale:(scroll.zoomScale*ratioAspect) animated:YES];
+//                }
+//            }
+//            break;
+//    }
+//}
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -514,11 +571,52 @@ enum actionSheetButtonIndex {
         }
         return NO;
     }
-    
+
     if ([url hasPrefix:@"http://www.youtube.com/v/"] ||
         [url hasPrefix:@"http://phobos.apple.com/"]) {
         [[UIApplication sharedApplication] openURL:request.URL];
         return NO;
+    }
+    
+    if (domainLockList == nil || [domainLockList isEqualToString:@""])
+    {
+        if (navigationType == UIWebViewNavigationTypeLinkClicked)
+        {
+            currentURL = request.URL.absoluteString;
+        }
+        
+        return YES;
+    }
+    
+    else
+    {
+        NSArray *domainList = [domainLockList componentsSeparatedByString:@","];
+        BOOL sendToSafari = YES;
+        
+        for (int x = 0; x < domainList.count; x++)
+        {
+            if ([[request.URL absoluteString] hasPrefix:(NSString *)[domainList objectAtIndex:x]] == YES)
+            {
+                sendToSafari = NO;
+            }
+        }
+        
+        if (sendToSafari == YES)
+        {
+            [[UIApplication sharedApplication] openURL:[request URL]];
+            
+            return NO;
+        }
+        
+        else
+        {
+            if (navigationType == UIWebViewNavigationTypeLinkClicked)
+            {
+                currentURL = request.URL.absoluteString;
+            }
+            
+            return YES;
+        }
     }
     
     if ([url hasPrefix:@"about:"]) {
@@ -550,6 +648,7 @@ enum actionSheetButtonIndex {
     }
     
     return YES;
+
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)_webView {
@@ -590,7 +689,7 @@ enum actionSheetButtonIndex {
     if ([error code] == NSURLErrorCancelled || [error code] == 102) {
         return;
     }
-    
+
     // Show error alert
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Could not load page", nil)
                                                     message:error.localizedDescription

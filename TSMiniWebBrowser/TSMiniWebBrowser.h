@@ -59,6 +59,7 @@ typedef enum {
     BOOL showReadabilityButton;
     BOOL showActionButton;
     UIBarStyle barStyle;
+	UIColor *barTintColor;
     NSString *modalDismissButtonTitle;
     NSString *forcedTitleBarText;
     
@@ -75,9 +76,12 @@ typedef enum {
 @property (nonatomic, assign) BOOL showReadabilityButton;
 @property (nonatomic, assign) BOOL showActionButton;
 @property (nonatomic, assign) UIBarStyle barStyle;
+@property (nonatomic, strong) UIColor *barTintColor;
 @property (nonatomic, strong) NSString *modalDismissButtonTitle;
 @property (nonatomic, strong) UIImage *modalDismissButtonImage;
 @property (nonatomic, strong) UIColor *progressBarTintColor;
+@property (nonatomic, strong) NSString *domainLockList;
+@property (nonatomic, strong) NSString *currentURL;
 
 // Public Methods
 - (id)initWithUrl:(NSURL*)url withReadability:(BOOL)readability;
