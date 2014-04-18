@@ -4,18 +4,17 @@ There are already some solutions to this problem out there but non of them offer
 
 More about me at [IndieDevStories.com](http://indiedevstories.com)
 
-[![Alt][screenshot1_thumb]][screenshot1]    [![Alt][screenshot2_thumb]][screenshot2]    [![Alt][screenshot3_thumb]][screenshot3]
-[screenshot1_thumb]: http://dl.dropbox.com/u/7604222/GitHub/TSMiniWebBrowser/shot_01_thumb.png
-[screenshot1]: http://dl.dropbox.com/u/7604222/GitHub/TSMiniWebBrowser/shot_01.png
-[screenshot2_thumb]: http://dl.dropbox.com/u/7604222/GitHub/TSMiniWebBrowser/shot_02_thumb.png
-[screenshot2]: http://dl.dropbox.com/u/7604222/GitHub/TSMiniWebBrowser/shot_02.png
-[screenshot3_thumb]: http://dl.dropbox.com/u/7604222/GitHub/TSMiniWebBrowser/shot_03_thumb.png
-[screenshot3]: http://dl.dropbox.com/u/7604222/GitHub/TSMiniWebBrowser/shot_03.png
+### iOS 7 Example
+![image](iOS7_example.png)
+
+### iOS 6 Example
+![image](iOS6_example.png)
 
 ## Features
 
 TSMiniWebBrowser offers the following **features**:
 
+* Progress bar for iOS 7 (on iOS 6 uses a spining wheel)
 * Back and forward buttons
 * Reload button (*optional*)
 * Activity indicator while page is loading
@@ -23,6 +22,7 @@ TSMiniWebBrowser offers the following **features**:
 * Displays the page title at the navigation bar (*optional*)
 * Displays the current URL at the top of the “Open in Safari” action sheet (*optional*)
 * Customizable bar style: default, black, black translucent.
+* Readability access (*optional*)
 
 As you can see, there are some items that are “optional”. That means that you can configure the browser to display or not those items, depending on your app needs.
 
@@ -36,12 +36,12 @@ Moreover, TSMiniWebBrowser **supports 3 presentation modes**:
 
 If you are OK with the **TSMiniWebBrowser defaults**, you can simply use this snippet to create and display the browser:
 
-	TSMiniWebBrowser *webBrowser = [[TSMiniWebBrowser alloc] initWithUrl:[NSURL URLWithString:@"http://indiedevstories.com"]];
+	TSMiniWebBrowser *webBrowser = [[TSMiniWebBrowser alloc] initWithUrl:[NSURL URLWithString:@"http://indiedevstories.com"] withReadability:YES];
 	[self.navigationController pushViewController:webBrowser animated:YES];
 
 If you prefer, you may **customize** the browser behavior. There is also a **simple Demo app** within the project. To test the tab bar mode go to the `application: didFinishLaunchingWithOptions:` method in `AppDelegate.m` and set the `BOOL wantTabBarDemo = NO;` value to `YES`.
 
-	TSMiniWebBrowser *webBrowser = [[TSMiniWebBrowser alloc] initWithUrl:[NSURL URLWithString:@"http://indiedevstories.com"]];
+	TSMiniWebBrowser *webBrowser = [[TSMiniWebBrowser alloc] initWithUrl:[NSURL URLWithString:@"http://indiedevstories.com"] withReadability:YES];
     webBrowser.showURLStringOnActionSheetTitle = YES;
     webBrowser.showPageTitleOnTitleBar = YES;
     webBrowser.showActionButton = YES;
