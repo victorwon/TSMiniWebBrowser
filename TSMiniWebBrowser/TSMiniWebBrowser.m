@@ -221,6 +221,11 @@ enum actionSheetButtonIndex {
         webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, kToolBarHeight-1, viewSize.width, viewSize.height-kToolBarHeight+1)];
     }
     webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
+        webView.scrollView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
+    }
+    
     [self.view addSubview:webView];
     
     webView.scalesPageToFit = YES;
